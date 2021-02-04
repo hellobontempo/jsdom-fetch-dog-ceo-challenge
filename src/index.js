@@ -2,9 +2,11 @@ console.log('%c HI', 'color: firebrick')
 
 const imgUrl = "https://dog.ceo/api/breeds/image/random/4" 
 const breedUrl = 'https://dog.ceo/api/breeds/list/all' 
-
+const dropdown = document.querySelector("#breed-dropdown")
 fetchImages()
 fetchBreeds()
+
+
 function fetchImages() {
     fetch(imgUrl)
         .then(resp => resp.json())
@@ -27,11 +29,20 @@ function fetchBreeds () {
             .then(addBreedsToDom)
 }
 
+
 function addBreedsToDom(breeds){
-    const breedList = breeds["message"]
+    const data = breeds["message"]
     const ulDogBreeds = document.querySelector("#dog-breeds")
-    let li = document.createElement('li')
-    for (const breed in breedList) {
-        ulDogBreeds.innerHTML += `<li id =${breed}>${breed}</li>`
+    for (const breed in data) {
+        let li = document.createElement('li')
+        li.innerText = breed
+        ulDogBreeds.appendChild(li)
+        li.addEventListener('click', handleClick)
     }
 }
+
+
+function handleClick(event) {
+    event.target.style.color = "violet"
+}
+
