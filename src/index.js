@@ -1,18 +1,18 @@
 console.log('%c HI', 'color: firebrick')
 
 const imgUrl = "https://dog.ceo/api/breeds/image/random/4" 
+const breedUrl = 'https://dog.ceo/api/breeds/list/all' 
 
 fetchImages()
+fetchBreeds()
 function fetchImages() {
     fetch(imgUrl)
         .then(resp => resp.json())
-            .then(data => {
-                addImgToDom(data)
-            })
+            .then(addImgToDom)
 }
 
-function addImgToDom(data) {
-    const imgArray = data["message"]
+function addImgToDom(images) {
+    const imgArray = images["message"]
     imgArray.forEach(image =>{
         const dogImageContainer = document.querySelector("#dog-image-container")
         let img = document.createElement('img');
@@ -21,12 +21,17 @@ function addImgToDom(data) {
     })
 }
 
-//   function renderBooks(books) {
-//     const main = document.querySelector('main')
-//     books.forEach(book => {
-//       const h2 = document.createElement('h2')
-//       h2.innerHTML = book.name
-//       main.appendChild(h2)
-//     })
-//   }
-  
+function fetchBreeds () {
+    fetch(breedUrl)     
+        .then(resp => resp.json())
+            .then(addBreedsToDom)
+}
+
+function addBreedsToDom(breeds){
+    const breedList = breeds["message"]
+    const ulDogBreeds = document.querySelector("#dog-breeds")
+    let li = document.createElement('li')
+    for (const breed in breedList) {
+        ulDogBreeds.innerHTML += `<li id =${breed}>${breed}</li>`
+    }
+}
